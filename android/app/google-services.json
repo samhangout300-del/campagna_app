@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "589816305171",
+    "project_id": "campagna-di-davide",
+    "storage_bucket": "campagna-di-davide.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589816305171:android:810ae9c7fff2b3ad3b91e6",
+        "android_client_info": {
+          "package_name": "com.sam.campagnaapp.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVK0LQ9vWnlRO14pqrhV4QMlpB1z7XEIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

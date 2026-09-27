@@ -1,6 +1,43 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'dart:developer' as developer;
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'firebase_options.dart';
+
+Future<void> recuperaTokenFCM() async {
+  try {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? token = await messaging.getToken();
+    await messaging.requestPermission();
+    if (token != null) {
+      developer.log("Token di registrazione FCM: $token", name: "FCM_TEST");
+    } else {
+      developer.log("Token ricevuto nullo", name: "FCM_TEST");
+    }
+  } catch (e, stackTrace) {
+    developer.log(
+      "Recupero del token FCM non riuscito",
+      name: "FCM_TEST",
+      error: e,
+      stackTrace: stackTrace,
+    );
+  }
+}
+
+void main() async {
+  // Assicura che i binding di Flutter siano pronti prima dei servizi nativi
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 1. Inizializza Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // 2. Chiama la funzione per recuperare il token
+  await recuperaTokenFCM();
+
+  // 3. Avvia l'interfaccia utente
   runApp(const MyApp());
 }
 
@@ -28,7 +65,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -102,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
