@@ -57,7 +57,6 @@ class DefaultFirebaseOptions {
     projectId: 'campagna-di-davide',
     storageBucket: 'campagna-di-davide.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAcBNfDrzr5K5iiwppqkNXIgovOHMvbSBg',
     appId: '1:589816305171:ios:42dbe3f8ee237fc73b91e6',

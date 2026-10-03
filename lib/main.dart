@@ -6,6 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'firebase_options.dart';
+import 'welcome_screen.dart';
+import 'home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Future<void> recuperaTokenFCM() async {
   try {
@@ -33,41 +37,29 @@ void main() async {
 
   // 1. Inizializza Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   // 2. Chiama la funzione per recuperare il token
   await recuperaTokenFCM();
 
-  // 3. Avvia l'interfaccia utente
-  runApp(const MyApp());
+  final prefs = await SharedPreferences.getInstance();
+  final username = prefs.getString('username');
+
+  runApp(CampagnaApp(username: username));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CampagnaApp extends StatelessWidget {
+  const CampagnaApp({super.key, required this.username});
 
-  // This widget is the root of your application.
+  final String? username;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Campagna App',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
+        fontFamily: GoogleFonts.robotoSlab().fontFamily,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: username != null ? const HomeScreen() : const WelcomeScreen(),
     );
   }
 }
@@ -114,9 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
